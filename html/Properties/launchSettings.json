@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Test": {
+      "commandName": "Project",
+      "commandLineArgs": "in2 -tokens",
+      "workingDirectory": "C:\\msys64\\home\\Kenne\\zz\\html-with-css-javascript\\html"
+    }
+  }
+}
