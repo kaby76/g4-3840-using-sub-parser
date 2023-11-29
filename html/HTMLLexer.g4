@@ -146,6 +146,7 @@ for (int i = 0; ; ++i)
         queue.Push(token);
         break;
     }
+    token.Channel = 2;
     queue.Push(token);
 }
 } -> skip, popMode;
@@ -169,6 +170,7 @@ for (int i = 0; ; ++i)
         queue.Push(token);
         break;
     }
+    token.Channel = 2;
     queue.Push(token);
 }
 } -> skip, popMode;
@@ -177,9 +179,53 @@ for (int i = 0; ; ++i)
 
 mode STYLE;
 
-STYLE_BODY: .*? '</style>' {};
+STYLE_BODY: .*? '</style>' {
+var start = this.TokenStartCharIndex;
+var end = this.CharIndex;
+var len = end - start;
+var text = this.Text.Substring(this.Text.Length-len);
+text = text.Substring(0, text.Length - "</style>".Length);
+var str = CharStreams.fromString(text);
+var lexer = new JavaScriptLexer(str);
+for (int i = 0; ; ++i)
+{
+    var ro_token = lexer.NextToken();
+    var token = (CommonToken)ro_token;
+    token.TokenIndex = i;
+    if (token.Type == Antlr4.Runtime.TokenConstants.EOF)
+    {
+        token = this.CommonToken(SCRIPT_END, "</style>");
+        queue.Push(token);
+        break;
+    }
+    token.Channel = 3;
+    queue.Push(token);
+}
+} -> skip, popMode;
 
-STYLE_SHORT_BODY: .*? '</>' {};
+STYLE_SHORT_BODY: .*? '</>' {
+var start = this.TokenStartCharIndex;
+var end = this.CharIndex;
+var len = end - start;
+var text = this.Text.Substring(this.Text.Length-len);
+text = text.Substring(0, text.Length - "</>".Length);
+var str = CharStreams.fromString(text);
+var lexer = new css3Lexer(str);
+for (int i = 0; ; ++i)
+{
+    var ro_token = lexer.NextToken();
+    var token = (CommonToken)ro_token;
+    token.TokenIndex = i;
+    if (token.Type == Antlr4.Runtime.TokenConstants.EOF)
+    {
+        token = this.CommonToken(SCRIPT_END, "</>");
+        queue.Push(token);
+        break;
+    }
+    token.Channel = 3;
+    queue.Push(token);
+}
+} -> skip, popMode;
 
 // attribute values
 
