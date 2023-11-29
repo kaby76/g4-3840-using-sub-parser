@@ -186,7 +186,7 @@ var len = end - start;
 var text = this.Text.Substring(this.Text.Length-len);
 text = text.Substring(0, text.Length - "</style>".Length);
 var str = CharStreams.fromString(text);
-var lexer = new JavaScriptLexer(str);
+var lexer = new css3Lexer(str);
 for (int i = 0; ; ++i)
 {
     var ro_token = lexer.NextToken();
@@ -194,7 +194,7 @@ for (int i = 0; ; ++i)
     token.TokenIndex = i;
     if (token.Type == Antlr4.Runtime.TokenConstants.EOF)
     {
-        token = this.CommonToken(SCRIPT_END, "</style>");
+        token = this.CommonToken(STYLE_END, "</style>");
         queue.Push(token);
         break;
     }
@@ -218,7 +218,7 @@ for (int i = 0; ; ++i)
     token.TokenIndex = i;
     if (token.Type == Antlr4.Runtime.TokenConstants.EOF)
     {
-        token = this.CommonToken(SCRIPT_END, "</>");
+        token = this.CommonToken(STYLE_END, "</>");
         queue.Push(token);
         break;
     }
