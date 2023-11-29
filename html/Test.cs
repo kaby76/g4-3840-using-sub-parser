@@ -251,6 +251,7 @@ public class Program
         parser.RemoveErrorListeners();
         lexer.AddErrorListener(listener_lexer);
         parser.AddErrorListener(listener_parser);
+        parser.ErrorHandler = new MyErrorStrategy();
         if (show_diagnostic)
         {
             parser.AddErrorListener(new MyDiagnosticErrorListener());
@@ -299,3 +300,17 @@ public class Program
     }
 }
 
+public class MyErrorStrategy : DefaultErrorStrategy
+{
+    private bool really_dont_do = false;
+    public void Special(bool v)
+    {
+        this.really_dont_do = v;
+    }
+
+    public override void Sync(Parser recognizer)
+    {
+        if (really_dont_do) return;
+        base.Sync(recognizer);
+    }
+}

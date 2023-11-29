@@ -75,7 +75,7 @@ htmlComment
     ;
 
 script
-    : SCRIPT_OPEN .+? SCRIPT_END
+    : SCRIPT_OPEN ({ ((MyErrorStrategy)this.ErrorHandler).Special(true); } .)+? { ((MyErrorStrategy)this.ErrorHandler).Special(false); } SCRIPT_END
     ;
 
 style
