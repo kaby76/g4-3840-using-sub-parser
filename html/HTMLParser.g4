@@ -75,9 +75,9 @@ htmlComment
     ;
 
 script
-    : SCRIPT_OPEN ~SCRIPT_END* SCRIPT_END
+    : SCRIPT_OPEN .+? SCRIPT_END
     ;
 
 style
-    : STYLE_OPEN ~STYLE_END* STYLE_END
+    : STYLE_OPEN .+? STYLE_END
     ;

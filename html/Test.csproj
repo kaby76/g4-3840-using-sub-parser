@@ -9,7 +9,8 @@
    <Antlr4 Include="HTMLLexer.g4">
 <Package></Package></Antlr4>
    <Antlr4 Include="HTMLParser.g4">
-<Package></Package></Antlr4>
+<Package></Package>
+<GAtn>true</GAtn></Antlr4>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\css3\css3.csproj" />
